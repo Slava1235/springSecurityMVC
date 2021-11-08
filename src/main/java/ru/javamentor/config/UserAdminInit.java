@@ -1,4 +1,4 @@
-package ru.javamentor.dao;
+package ru.javamentor.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,10 +32,10 @@ public class UserAdminInit {
         roleService.saveRole(roleAdmin);
         setAdmin.add(roleService.findByRoleId(1L));
         setAdmin.add(roleService.findByRoleId(2L));
-        User admin = new User("ADMIN", "ADMIN", 0, "$2a$12$7ecgq9pFOxTKmWifsgATheCQK6NRxwITBgQdmThnyfsSgThiYkZAu", setAdmin);
+        User admin = new User("ADMIN", "ADMIN", 0, "ADMIN", setAdmin);
         Set<Role> setUser = new HashSet<>();
         setUser.add(roleService.findByRoleId(1L));
-        User normalUser = new User("USER", "USER", 0, "$2a$12$55Dsuj6CfEXad9kuRy.w8ezNXMjxXxtQYplxnV5u1Jou5yI5hU0eO", setUser);
+        User normalUser = new User("USER", "USER", 0, "USER", setUser);
         userService.saveUser(admin);
         userService.saveUser(normalUser);
     }

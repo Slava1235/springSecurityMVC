@@ -5,28 +5,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.dao.UserDao;
-import ru.javamentor.dao.UserDaoImp;
 import ru.javamentor.model.User;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImp implements UserService {
 
-    @Autowired
     private UserDao userDao;
-
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    public UserServiceImp(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Autowired
+    public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     @Transactional
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
-
 
     @Override
     @Transactional
@@ -37,11 +40,9 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        Pattern BCRYPT_PATTERN = Pattern.compile("\\A\\$2a?\\$\\d\\d\\$[./0-9A-Za-z]{53}");
-
-        if (!BCRYPT_PATTERN.matcher(user.getPassword()).matches()) {
-            String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-            user.setPassword(encryptedPassword);
+        User userOld = findByUserName(user.getName());
+        if (userOld == null || !userOld.getPassword().equals(user.getPassword())) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
         userDao.saveUser(user);
     }

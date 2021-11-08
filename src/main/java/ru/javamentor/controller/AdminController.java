@@ -17,8 +17,8 @@ import java.util.Set;
 @RequestMapping(value = "/admin/")
 public class AdminController {
 
-    private  UserService userService;
-    private  RoleService roleService;
+    private UserService userService;
+    private RoleService roleService;
 
     @Autowired
     public AdminController(UserService userService, RoleService roleService) {
@@ -26,7 +26,7 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @RequestMapping(value = "")
+    @GetMapping(value = "")
     public String getAllUsers(ModelMap model) {
         List<User> listUsers = userService.getAllUsers();
         Set<Role> listRoles = roleService.getAllRoles();
@@ -36,7 +36,7 @@ public class AdminController {
     }
 
 
-    @RequestMapping(value = "addNewUser")
+    @GetMapping(value = "addNewUser")
     public String addNewUser(ModelMap model) {
         model.addAttribute("user", new User());
         Set<Role> listRoles = roleService.getAllRoles();
@@ -44,7 +44,7 @@ public class AdminController {
         return "user-info";
     }
 
-    @RequestMapping(value = "saveUser")
+    @PostMapping(value = "saveUser")
     public String saveUser(@ModelAttribute("user") User user, @RequestParam("roles") String[] roles) {
         Set<Role> roleSet = new HashSet<>();
         for (String role : roles) {
@@ -55,7 +55,7 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-    @RequestMapping(value = "updateInfo/{id}")
+    @GetMapping(value = "updateInfo/{id}")
     public String updateInfo(@PathVariable("id") Long id, ModelMap model) {
         User user = userService.getUser(id);
         Set<Role> listRoles = roleService.getAllRoles();
@@ -64,7 +64,7 @@ public class AdminController {
         return "user-info";
     }
 
-    @RequestMapping(value = "deleteUser/{id}")
+    @GetMapping(value = "deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);
         return "redirect:/admin/";

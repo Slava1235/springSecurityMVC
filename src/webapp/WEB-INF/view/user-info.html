@@ -17,11 +17,13 @@
     Password <input type="text" th:field="*{password}"/>
     <br>
     <div class="form-group row">
-        <label for="roles">Enter roles:</label>
-        <select multiple name="roles" id="roles">
-            <option selected>USER</option>
-            <option>ADMIN</option>
-        </select>
+        <label class="col-4 col-form-label">Roles: </label>
+        <div class="col-8">
+            <th:block th:each="role: ${allRoles}">
+                <input type="checkbox" th:field="*{roles}"
+                       th:text="${role.role}" th:value="${role.role}" class="m-2" />
+            </th:block>
+        </div>
     </div>
     </br>
     <div>
