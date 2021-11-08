@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UserInfo</title>
+</head>
+<body>
+<form th:action="@{/admin/saveUser/}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    Name <input type="text" th:field="*{name}"/>
+    </br>
+    Last name <input type="text" th:field="*{lastname}"/>
+    </br>
+    Age <input type="number" th:field="*{age}"/>
+    <br>
+    Password <input type="text" th:field="*{password}"/>
+    <br>
+    <div class="form-group row">
+        <label for="roles">Enter roles:</label>
+        <select multiple name="roles" id="roles">
+            <option selected>USER</option>
+            <option>ADMIN</option>
+        </select>
+    </div>
+    </br>
+    <div>
+        <input type="submit" value="Ok"
+               onclick="window.location.href = '/'">
+    </div>
+</form>
+</body>
+</html>
