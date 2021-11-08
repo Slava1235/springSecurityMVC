@@ -35,7 +35,6 @@ public class AdminController {
         return "allUsers";
     }
 
-
     @GetMapping(value = "addNewUser")
     public String addNewUser(ModelMap model) {
         model.addAttribute("user", new User());
